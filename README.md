@@ -13,3 +13,7 @@ In the very first version we are planning to use redis as primary storage and my
 
 ### AI Supported Translation
 We believe that in case we need for a certain language to communicate, we need to support it. That is why in the database we will be adding translations in terms of source_id and language_id. So in case a new language is required the application will automatically populate the translations using AI translation engine to the related language required.
+
+# Want to contribute?
+You can always be in our team which creates magnificant projects! Just email to codewithus@nextdeveloper.com
+
