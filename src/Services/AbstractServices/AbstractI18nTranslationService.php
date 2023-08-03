@@ -57,11 +57,6 @@ class AbstractI18nTranslationService {
             return $model->paginate($perPage);
         else
             return $model->get();
-
-        if(!$model && $enablePaginate)
-            return I18nTranslation::paginate($perPage);
-        else
-            return I18nTranslation::get();
     }
 
     public static function getAll() {

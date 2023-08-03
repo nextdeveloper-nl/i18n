@@ -2,7 +2,6 @@
 
 namespace NextDeveloper\I18n\Database\Models;
 
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
 use NextDeveloper\I18n\Database\Observers\I18nTranslationObserver;
@@ -16,7 +15,6 @@ use NextDeveloper\Commons\Database\Traits\UuidId;
 class I18nTranslation extends Model
 {
     use Filterable, UuidId;
-    
 
     public $timestamps = false;
 
@@ -32,14 +30,14 @@ class I18nTranslation extends Model
      *  Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
     protected $fullTextFields = [
-        
+
     ];
 
     /**
      * @var array
      */
     protected $appends = [
-        
+
     ];
 
     /**
@@ -47,12 +45,12 @@ class I18nTranslation extends Model
      * @var array
      */
     protected $casts = [
-        'id'          => 'integer',
-		'uuid'        => 'string',
-		'hash'        => 'string',
-		'language_id' => 'integer',
-		'text'        => 'string',
-		'translation' => 'string',
+        'id' => 'integer',
+        'uuid' => 'string',
+        'hash' => 'string',
+        'language_id' => 'integer',
+        'text' => 'string',
+        'translation' => 'string',
     ];
 
     /**
@@ -60,7 +58,7 @@ class I18nTranslation extends Model
      * @var array
      */
     protected $dates = [
-        
+
     ];
 
     /**
@@ -82,9 +80,34 @@ class I18nTranslation extends Model
     {
         parent::boot();
 
-        //  We create and add Observer even if we wont use it.
+//  We create and add Observer even if we wont use it.
         parent::observe(I18nTranslationObserver::class);
+
+        self::registerScopes();
     }
 
-    // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+    /**
+     * Adds dynamic scopes to the model
+     *
+     * @return void
+     */
+    public static function registerScopes()
+    {
+        $globalScopes = config('i18n.scopes.global');
+        $modelScopes = config('i18n.scopes.i18n_translations');
+
+        if (!$modelScopes) $modelScopes = [];
+
+        $scopes = array_merge(
+            $globalScopes,
+            $modelScopes
+        );
+
+        if ($scopes) {
+            foreach ($scopes as $scope) {
+                static::addGlobalScope(app($scope));
+            }
+        }
+    }
+// EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 }

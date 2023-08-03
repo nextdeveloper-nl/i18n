@@ -1,7 +1,6 @@
 <?php
 
 Route::prefix('i18n')->group(function() {
-
 Route::prefix('translations')->group(function () {
         Route::get('/', 'I18nTranslation\I18nTranslationController@index');
         Route::get('/{i18n-translations}', 'I18nTranslation\I18nTranslationController@show');
