@@ -5,7 +5,7 @@ return [
     'services' => [
         'google' => [
             'translate' => [
-                'key' => env('GOOGLE_TRANSLATE_KEY', 'AIzaSyDoadNi3qjS3USUAH8QS71kNtT5HbrZ1a0')
+                'key' => env('GOOGLE_TRANSLATE_KEY')
             ]
         ],
     ],
