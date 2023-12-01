@@ -7,6 +7,7 @@ use NextDeveloper\Generator\Common\AbstractController;
 use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
 use NextDeveloper\I18n\Http\Requests\I18nTranslation\I18nTranslationUpdateRequest;
 use NextDeveloper\I18n\Database\Filters\I18nTranslationQueryFilter;
+use NextDeveloper\I18n\Http\Requests\Translation\TranslationCreateRequest;
 use NextDeveloper\I18n\Services\I18nTranslationService;
 use NextDeveloper\I18n\Http\Requests\I18nTranslation\I18nTranslationCreateRequest;
 
@@ -26,5 +27,19 @@ class TranslationController extends AbstractController
         $data = I18nTranslationService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
+    }
+
+    /**
+     * This method returns the specified i18ntranslation.
+     *
+     * @param TranslationCreateRequest $request
+     * @return mixed|null
+     * @throws \Google\Cloud\Core\Exception\ServiceException
+     */
+    public function show(TranslationCreateRequest $request) {
+        $data   = $request->validated();
+        $model  = I18nTranslationService::translate($data, $data['locale']);
+
+        return ResponsableFactory::makeResponse($this, $model);
     }
 }
