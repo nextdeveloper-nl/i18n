@@ -1,6 +1,6 @@
 <?php
 
-namespace Helpers;
+namespace NextDeveloper\I18n\Helpers;
 
 class i18n
 {
