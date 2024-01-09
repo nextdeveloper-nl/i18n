@@ -13,5 +13,6 @@ Route::prefix('translations')->group(function () {
 
     Route::prefix('translate')->group(function() {
         Route::get('/', );
+        Route::post('/', 'I18nTranslation\TranslationController@show');
     });
 });
