@@ -4,7 +4,7 @@ namespace NextDeveloper\I18n\Http\Controllers\I18nTranslation;
 
 use Illuminate\Http\Request;
 use NextDeveloper\Generator\Common\AbstractController;
-use NextDeveloper\Generator\Http\Traits\ResponsableFactory;
+use NextDeveloper\Commons\Http\Response\ResponsableFactory;
 use NextDeveloper\I18n\Http\Requests\I18nTranslation\I18nTranslationUpdateRequest;
 use NextDeveloper\I18n\Database\Filters\I18nTranslationQueryFilter;
 use NextDeveloper\I18n\Services\I18nTranslationService;
