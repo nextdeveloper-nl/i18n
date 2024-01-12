@@ -3,6 +3,9 @@
 namespace NextDeveloper\I18n\Services;
 
 use Google\Cloud\Core\Exception\ServiceException;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Str;
+use NextDeveloper\Commons\Database\Models\Domains;
 use NextDeveloper\Commons\Database\Models\Languages;
 use NextDeveloper\I18n\Database\Models\I18nTranslation;
 use NextDeveloper\I18n\Services\AbstractServices\AbstractI18nTranslationService;
@@ -29,8 +32,17 @@ class I18nTranslationService extends AbstractI18nTranslationService {
      * @return I18nTranslation The translated text.
      * @throws ServiceException
      */
-    public static function translate(array $data, string $toLocale = 'en'): I18nTranslation
+    public static function translate($data, $toLocale = 'en', $domainId = null): I18nTranslation
     {
+        //  Added here as a bug fix, and to be able to use with multiple services
+        if(!is_array($data)){
+            $temp['text']   =   $data;
+            $data   =   $temp;
+        }
+
+        if(!$toLocale)
+            $toLocale = App::getLocale();
+
         // Generate a hash for the input text to check if translation is already stored.
         $hashText = hash('xxh3', $data['text']);
 
@@ -62,13 +74,25 @@ class I18nTranslationService extends AbstractI18nTranslationService {
         // TODO: Should be refactored to use the LanguageService
         $language = Languages::where('iso_639_1_code', $toLocale)->first();
 
-        // Store the translated text in the database for future use.
-        $storeTranslatedText = self::create([
+        $domain = null;
+
+        if($domainId != null) {
+            $domain = Domains::withoutGlobalScopes()->where('uuid', $domainId)->first();
+        }
+
+        $data = [
             'hash'          => $hashTextWithLocale,
             'translation'   => $translation,
             'text'          => $data['text'],
-            'language_id'   => $language->id
-        ]);
+            'common_language_id'   => $language->id,
+        ];
+
+        if($domain) {
+            $data['common_domain_id']   =   $domain->id;
+        }
+
+        // Store the translated text in the database for future use.
+        $storeTranslatedText = self::create($data);
 
         // Return the translated Model.
         return $storeTranslatedText;

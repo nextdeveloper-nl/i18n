@@ -16,4 +16,10 @@ return [
     'translator' => [
         'default_model' => env('TRANSLATOR_MODEL', 'google'),
     ],
+    'domain'    =>  [
+        'id'    =>  'd2c98bdf-9942-11ee-b8af-c2ea10853885'
+    ],
+    'translations'  =>  [
+        'folder'    =>  base_path('/lang/vue/')
+    ]
 ];

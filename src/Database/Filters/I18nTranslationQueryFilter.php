@@ -4,7 +4,9 @@ namespace NextDeveloper\I18n\Database\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use NextDeveloper\Commons\Database\Filters\AbstractQueryFilter;
-    
+use NextDeveloper\Commons\Database\Models\Domains;
+use NextDeveloper\Commons\Database\Models\Languages;
+
 
 /**
  * This class automatically puts where clause on database so that use can filter
@@ -32,12 +34,20 @@ class I18nTranslationQueryFilter extends AbstractQueryFilter
         return $this->builder->where('translation', 'like', '%' . $value . '%');
     }
 
+    public function domainId($value)
+    {
+        $domain = Domains::where('uuid', $value)->first();
+
+        if($domain)
+            return $this->builder->where('common_domain_id', $value);
+    }
+
     public function languageId($value)
     {
-        $language = Language::where('uuid', $value)->first();
+        $language = Languages::where('uuid', $value)->first();
 
         if($language) {
-            return $this->builder->where('language_id', '=', $language->id);
+            return $this->builder->where('common_language_id', '=', $language->id);
         }
     }
 

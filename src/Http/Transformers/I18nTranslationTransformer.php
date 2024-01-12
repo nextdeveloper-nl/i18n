@@ -21,7 +21,7 @@ class I18nTranslationTransformer extends AbstractTransformer {
         return $this->buildPayload([
             'id'  =>  $model->uuid,
             'hash'  =>  $model->hash,
-            'language_id'  =>  $model->language_id,
+            'language_id'  =>  $model->common_language_id,
             'text'  =>  $model->text,
             'translation'  =>  $model->translation,
         ]);

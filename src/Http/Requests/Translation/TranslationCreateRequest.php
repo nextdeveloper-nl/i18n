@@ -11,6 +11,7 @@ class TranslationCreateRequest extends FormRequest
         return [
             'text'      => 'required|string',
             'locale'    => 'required|string|exists:common_languages,iso_639_1_code',
+            'domain_id' =>   'exists:common_domains,uuid'
         ];
     }
 
