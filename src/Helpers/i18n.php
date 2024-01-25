@@ -18,7 +18,7 @@ class i18n
          * @todo: We should find a more clever way to process this. Because if browser sends this locale;
          * "en-US,en;q=0.5" we should be able to work with this also!
          */
-        $isLanguageAvailable = Languages::where('code', $toLang)->first();
+        $isLanguageAvailable = Languages::withoutGlobalScopes()->where('code', $toLang)->first();
 
         if(!$isLanguageAvailable)
             $toLang = 'en';
