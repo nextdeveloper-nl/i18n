@@ -107,6 +107,6 @@ class I18nTranslationService extends AbstractI18nTranslationService {
      */
     public static function getByHash(string $hash): ?I18nTranslation
     {
-        return I18nTranslation::where('hash', $hash)->first();
+        return I18nTranslation::withoutGlobalScopes()->where('hash', $hash)->first();
     }
 }
