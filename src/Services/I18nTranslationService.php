@@ -67,12 +67,17 @@ class I18nTranslationService extends AbstractI18nTranslationService {
                 break;
         }
 
-        // Translate the text using the selected translator.
-        $translation = $translator->translate($data['text'], $toLocale);
+        try {
+            // Translate the text using the selected translator.
+            $translation = $translator->translate($data['text'], $toLocale);
+        } catch (ServiceException $e) {
+            // If translation fails, return the original text.
+            dd($e);
+        }
 
         // Get Language ID
         // TODO: Should be refactored to use the LanguageService
-        $language = Languages::where('iso_639_1_code', $toLocale)->first();
+        $language = Languages::withoutGlobalScopes()->where('iso_639_1_code', $toLocale)->first();
 
         $domain = null;
 
