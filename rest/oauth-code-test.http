@@ -1,7 +1,7 @@
-GET 127.0.0.1:8000/oauth/token?
+GET {{host}}/oauth/token?
     grant_type=authorization_code&
-    client_id=6b2631d2-2329-11ee-b8af-c2ea10853885&
-    client_secret=xKSSZoVrZRmZ3u5TvoaZOV8AwnG2djyjtqlQVAOB&
-    redirect_uri:http://127.0.0.1:8001/callback&
+    client_id={{oauth2_client_id}}&
+    client_secret={{oauth2_client_secret}}&
+    redirect_uri:{{oauth2_redirect_uri}}&
     code_verifier=not-available-now&
-    code=zq3qbW4SmmnCf36HCQvNBS5poxQM7kxv3kNrUV4btYlx0zSrFYExOuHZzXBwDjD8Z0LEiP2buYEztNhuEbUy4xHSdfics2XIIgRY
+    code={{oauth2_code}}

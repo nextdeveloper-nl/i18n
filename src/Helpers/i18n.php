@@ -9,7 +9,7 @@ use NextDeveloper\IAM\Helpers\UserHelper;
 
 class i18n
 {
-    public static function t($text, $toLang = null) : string
+    public static function t($text, $toLang = null, $domainId = null) : string
     {
         if(!$toLang)
             $toLang = App::getLocale();
@@ -24,7 +24,7 @@ class i18n
             $toLang = 'en';
 
         //  Burada gelen text'i alıp hash'leyip, veritabanına kayıt edeceğiz.
-        $translated = I18nTranslationService::translate($text, $toLang);
+        $translated = I18nTranslationService::translate($text, $toLang, $domainId);
 
         return $translated['translation'];
     }
