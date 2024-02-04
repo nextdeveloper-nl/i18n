@@ -1,0 +1,7 @@
+POST {{host}}/i18n/translation
+Content-Type: application/json
+{
+"text":"Entry Email",
+"locale":"en-US,en;q=0.5",
+"domain_id":"d2c98bdf-9942-11ee-b8af-c2ea10853885"
+}
