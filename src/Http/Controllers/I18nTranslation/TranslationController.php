@@ -3,14 +3,11 @@
 namespace NextDeveloper\I18n\Http\Controllers\I18nTranslation;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use NextDeveloper\Commons\Http\Controllers\AbstractController;
+use NextDeveloper\I18n\Http\Controllers\AbstractController;
 use NextDeveloper\Commons\Http\Response\ResponsableFactory;
-use NextDeveloper\I18n\Http\Requests\I18nTranslation\I18nTranslationUpdateRequest;
 use NextDeveloper\I18n\Database\Filters\I18nTranslationQueryFilter;
 use NextDeveloper\I18n\Http\Requests\Translation\TranslationCreateRequest;
 use NextDeveloper\I18n\Services\I18nTranslationService;
-use NextDeveloper\I18n\Http\Requests\I18nTranslation\I18nTranslationCreateRequest;
 use NextDeveloper\I18n\Services\LanguageGeneratorService;
 
 class TranslationController extends AbstractController
