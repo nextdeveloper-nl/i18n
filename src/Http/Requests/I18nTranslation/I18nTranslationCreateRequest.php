@@ -16,6 +16,7 @@ class I18nTranslationCreateRequest extends AbstractFormRequest
 			'language_id' => 'nullable|exists:languages,uuid|uuid',
 			'text'        => 'required|string',
 			'translation' => 'required|string',
+            'domain_id'   => 'required|exists:domains,uuid|uuid',
         ];
     }
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE

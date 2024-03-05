@@ -64,9 +64,8 @@ class TranslationController extends AbstractController
      * @throws \Google\Cloud\Core\Exception\ServiceException
      */
     public function store(TranslationCreateRequest $request) {
-        dd('asd');
         $data   = $request->validated();
-        $model  = I18nTranslationService::translate($data, $data['locale'], $data['domain_id']);
+        $model  = I18nTranslationService::translate($data, $data['locale'], $data['common_domain_id']);
 
         return ResponsableFactory::makeResponse($this, $model);
     }
