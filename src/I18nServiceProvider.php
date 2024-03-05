@@ -2,6 +2,8 @@
 
 namespace NextDeveloper\I18n;
 
+use NextDeveloper\I18n\Console\Commands\GenerateLanguageFiles;
+
 /**
  * Class I18nServiceProvider
  *
@@ -115,7 +117,7 @@ class I18nServiceProvider extends AbstractServiceProvider {
     protected function registerCommands() {
         if ($this->app->runningInConsole()) {
             $this->commands([
-
+                GenerateLanguageFiles::class
             ]);
         }
     }

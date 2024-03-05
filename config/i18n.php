@@ -17,7 +17,7 @@ return [
         'default_model' => env('TRANSLATOR_MODEL', 'google'),
     ],
     'domain'    =>  [
-        'id'    =>  'd2c98bdf-9942-11ee-b8af-c2ea10853885'
+        'id'    =>  env('I18N_DOMAIN_ID')
     ],
     'translations'  =>  [
         'folder'    =>  base_path('/lang/vue/')
