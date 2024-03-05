@@ -28,7 +28,8 @@ class LanguageGeneratorService {
         $availableLanguages = [];
 
         foreach ($langs as $lang) {
-            $translations = I18nTranslation::where('common_domain_id', $domain->id)
+            $translations = I18nTranslation::withoutGlobalScopes()
+                ->where('common_domain_id', $domain->id)
                 ->where('common_language_id', $lang->id)
                 ->get();
 
