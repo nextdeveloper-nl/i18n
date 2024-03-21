@@ -4,6 +4,7 @@ namespace NextDeveloper\I18n\Services;
 
 use Google\Cloud\Core\Exception\ServiceException;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use NextDeveloper\Commons\Database\Models\Domains;
 use NextDeveloper\Commons\Database\Models\Languages;
@@ -72,7 +73,11 @@ class I18nTranslationService extends AbstractI18nTranslationService {
             $translation = $translator->translate($data['text'], $toLocale);
         } catch (ServiceException $e) {
             // If translation fails, return the original text.
-            dd($e);
+            if($e->getCode() == 403) {
+                Log::error('[i18n\TranslationService\translate] Cannot translate because: ' . $e->getMessage());
+            }
+
+            return $data['text'];
         }
 
         // Get Language ID
