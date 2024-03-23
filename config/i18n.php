@@ -12,6 +12,11 @@ return [
                 'key' => env('GOOGLE_TRANSLATE_KEY')
             ]
         ],
+        'openai'    => [
+            'url'   => env('OPENAI_URL', 'https://api.openai.com/v1/'),
+            'key'   => env('OPENAI_KEY'),
+            'model' => env('OPENAI_MODEL', 'gpt-4'),
+        ],
     ],
     'translator' => [
         'default_model' => env('TRANSLATOR_MODEL', 'google'),

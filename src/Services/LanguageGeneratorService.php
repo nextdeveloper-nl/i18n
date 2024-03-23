@@ -44,7 +44,7 @@ class LanguageGeneratorService {
                 $json[$translation['text']] = $translation['translation'];
             }
 
-            $file = config('i18n.translations.folder') . $lang->code . '.json';
+            $file = config('i18n.translations.folder') . trim($lang->code) . '.json';
 
             file_put_contents($file, json_encode($json, JSON_UNESCAPED_UNICODE));
         }

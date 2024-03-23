@@ -3,6 +3,7 @@
 namespace NextDeveloper\I18n\Helpers;
 
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Str;
 use NextDeveloper\Commons\Database\Models\Languages;
 use NextDeveloper\I18n\Services\I18nTranslationService;
 use NextDeveloper\IAM\Helpers\UserHelper;
@@ -11,6 +12,9 @@ class i18n
 {
     public static function t($text, $toLang = null, $domainId = null) : string
     {
+        if(Str::isUuid($toLang))
+            $toLang = Languages::where('id', $toLang)->first()->code;
+
         if(!$toLang)
             $toLang = App::getLocale();
 
