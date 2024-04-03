@@ -15,7 +15,7 @@ class I18nAdminRole extends AbstractRole implements IAuthorizationRole
 {
     public const NAME = 'i18n-admin';
 
-    public const LEVEL = 50;
+    public const LEVEL = 100;
 
     public const DESCRIPTION = 'I18n Admin';
 
