@@ -11,6 +11,7 @@ use NextDeveloper\Commons\Database\Models\Languages;
 use NextDeveloper\I18n\Database\Models\I18nTranslation;
 use NextDeveloper\I18n\Services\AbstractServices\AbstractI18nTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\GoogleTranslationService;
+use NextDeveloper\I18n\Services\TranslationServices\OpenAITranslationService;
 
 /**
 * This class is responsible from managing the data for I18nTranslation
@@ -63,6 +64,9 @@ class I18nTranslationService extends AbstractI18nTranslationService {
 
         // Instantiate the translator based on the configured model.
         switch ($translatorModel) {
+            case 'openai':
+                $translator = new OpenAITranslationService();
+                break;
             default:
                 $translator = new GoogleTranslationService();
                 break;
