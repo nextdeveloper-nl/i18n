@@ -18,7 +18,7 @@ class i18n
         if(!$toLang)
             $toLang = App::getLocale();
 
-        if(config('app.dynamic_translation'))
+        if(!config('app.translation_enabled'))
             return I18nTranslationService::translate($text, $toLang, $domainId)['translation'];
 
         /**
