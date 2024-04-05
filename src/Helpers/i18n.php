@@ -18,6 +18,9 @@ class i18n
         if(!$toLang)
             $toLang = App::getLocale();
 
+        if(config('app.dynamic_translation'))
+            return I18nTranslationService::translate($text, $toLang, $domainId)['translation'];
+
         /**
          * @todo: We should find a more clever way to process this. Because if browser sends this locale;
          * "en-US,en;q=0.5" we should be able to work with this also!
