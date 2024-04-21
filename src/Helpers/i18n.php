@@ -19,7 +19,7 @@ class i18n
             $toLang = App::getLocale();
 
         if(!config('app.translation_enabled'))
-            return I18nTranslationService::translate($text, $toLang, $domainId)['translation'];
+            return $text;
 
         /**
          * @todo: We should find a more clever way to process this. Because if browser sends this locale;
