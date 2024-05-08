@@ -3,19 +3,22 @@
 namespace NextDeveloper\I18n\Actions;
 
 use NextDeveloper\Commons\Actions\AbstractAction;
+use NextDeveloper\Commons\Database\Models\Languages;
+use NextDeveloper\I18n\Database\Models\I18nTranslation;
 
 /**
- * This action will translate all the english text to other languages if the translation is not already present.
+ * This action will translate the given text to other languages if the translation is not already present.
+ * If text is not provided, it will translate all texts to other languages.
  *
  * @package NextDeveloper\I18n
  */
-class TranslateAll extends AbstractAction
+class TranslateTextsToLanguage extends AbstractAction
 {
     public $model;
 
-    public function __construct()
+    public function __construct(I18nTranslation $i18nTranslation = null)
     {
-
+        $this->model = $i18nTranslation;
     }
 
     /**

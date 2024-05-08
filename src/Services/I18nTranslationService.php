@@ -24,6 +24,41 @@ class I18nTranslationService extends AbstractI18nTranslationService {
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
+    public static function translateWithoutSaving($data, $toLocale = 'en')
+    {
+        //  Added here as a bug fix, and to be able to use with multiple services
+        if(!is_array($data)){
+            $temp['text']   =   $data;
+            $data   =   $temp;
+        }
+
+        if(!$toLocale)
+            $toLocale = App::getLocale();
+
+        // Get the configured translator model from the application settings.
+        $translatorModel = config('i18n.translator.default_model');
+
+        // Instantiate the translator based on the configured model.
+        switch ($translatorModel) {
+            case 'openai':
+                $translator = new OpenAITranslationService();
+                break;
+            default:
+                $translator = new GoogleTranslationService();
+                break;
+        }
+
+        try {
+            // Translate the text using the selected translator.
+            $translation = $translator->translate($data['text'], trim($toLocale));
+        } catch (ServiceException $e) {
+            Log::error('[i18n\TranslationService\translate] Cannot translate because: ' . $e->getMessage());
+
+            return $data['text'];
+        }
+
+        return $translation;
+    }
 
     /**
      * Translate a given text to the specified locale using the configured translator model.
@@ -34,7 +69,7 @@ class I18nTranslationService extends AbstractI18nTranslationService {
      * @return I18nTranslation The translated text.
      * @throws ServiceException
      */
-    public static function translate($data, $toLocale = 'en', $domainId = null): I18nTranslation
+    public static function translate($data, $toLocale = 'en', $domainId = null): ?I18nTranslation
     {
         //  Added here as a bug fix, and to be able to use with multiple services
         if(!is_array($data)){
@@ -74,14 +109,15 @@ class I18nTranslationService extends AbstractI18nTranslationService {
 
         try {
             // Translate the text using the selected translator.
-            $translation = $translator->translate($data['text'], $toLocale);
+            $translation = $translator->translate($data['text'], trim($toLocale));
         } catch (ServiceException $e) {
+            Log::error('[i18n\TranslationService\translate] Cannot translate because: ' . $e->getMessage());
             // If translation fails, return the original text.
-            if($e->getCode() == 403) {
-                Log::error('[i18n\TranslationService\translate] Cannot translate because: ' . $e->getMessage());
-            }
+//            if($e->getCode() == 403) {
+//                Log::error('[i18n\TranslationService\translate] Cannot translate because: ' . $e->getMessage());
+//            }
 
-            return $data['text'];
+            return null;
         }
 
         // Get Language ID
