@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 use NextDeveloper\Commons\Database\Models\Languages;
 use NextDeveloper\I18n\Services\I18nTranslationService;
+use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 use NextDeveloper\IAM\Helpers\UserHelper;
 
 class i18n
@@ -66,5 +67,12 @@ class i18n
             return $text;
 
         return $translated['translation'];
+    }
+
+    public static function getLangByUuid($langId)
+    {
+        return Languages::withoutGlobalScope(AuthorizationScope::class)
+            ->where('uuid', $langId)
+            ->first();
     }
 }
