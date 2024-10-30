@@ -71,8 +71,14 @@ class i18n
 
     public static function getLangByUuid($langId)
     {
+        if(Str::isUuid($langId)) {
+            return Languages::withoutGlobalScope(AuthorizationScope::class)
+                ->where('uuid', $langId)
+                ->first();
+        }
+
         return Languages::withoutGlobalScope(AuthorizationScope::class)
-            ->where('uuid', $langId)
+            ->where('id', $langId)
             ->first();
     }
 }
