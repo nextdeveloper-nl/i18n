@@ -4,6 +4,7 @@ namespace NextDeveloper\I18n\Database\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use NextDeveloper\Commons\Database\Traits\Filterable;
+use NextDeveloper\Commons\Database\Traits\HasStates;
 use NextDeveloper\I18n\Database\Observers\I18nTranslationObserver;
 use NextDeveloper\Commons\Database\Traits\UuidId;
 
