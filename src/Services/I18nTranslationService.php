@@ -76,12 +76,8 @@ class I18nTranslationService extends AbstractI18nTranslationService {
             $translation = $translator->translate($data['text'], trim($toLocale));
         } catch (ServiceException $e) {
             Log::error('[i18n\TranslationService\translate] Cannot translate because: ' . $e->getMessage());
-            // If translation fails, return the original text.
-//            if($e->getCode() == 403) {
-//                Log::error('[i18n\TranslationService\translate] Cannot translate because: ' . $e->getMessage());
-//            }
 
-            return null;
+            return $data['text'];
         }
 
         // Get Language ID
