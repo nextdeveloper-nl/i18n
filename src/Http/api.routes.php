@@ -12,7 +12,8 @@ Route::prefix('i18n')->group(function() {
 // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
     Route::prefix('translate')->group(function() {
-        Route::post('/', 'I18nTranslation\TranslationController@store');
+        // replace "/" with "lang" in the route, for avoiding option method error
+        Route::post('/lang', 'I18nTranslation\TranslationController@store');
     });
 
     Route::prefix('translation')->group(function() {
