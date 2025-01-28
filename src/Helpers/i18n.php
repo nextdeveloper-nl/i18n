@@ -43,10 +43,16 @@ class i18n
             return $text;
 
         if(Str::isUuid($toLang))
-            $toLang = Languages::where('uuid', $toLang)->first()->code;
+            $toLang = Languages::withoutGlobalScope(AuthorizationScope::class)
+                ->where('uuid', $toLang)
+                ->first()
+                ->code;
 
         if(is_int($toLang))
-            $toLang = Languages::where('id', $toLang)->first()->code;
+            $toLang = Languages::withoutGlobalScope(AuthorizationScope::class)
+                ->where('id', $toLang)
+                ->first()
+                ->code;
 
         if(!$toLang)
             $toLang = App::getLocale();
