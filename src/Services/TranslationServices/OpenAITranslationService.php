@@ -69,7 +69,7 @@ class OpenAITranslationService
                         ],
                     ],
                     'temperature'   => 0.7, // Controls randomness of the generated text (0.0 to 1.0)
-                    'max_tokens'    => 64, // Maximum number of tokens to generate
+                    'max_tokens'    => config('i18n.services.openai.max_tokens', 3000), // Maximum number of tokens to generate
                     'top_p'         => 1.0, // Likelihood of selecting the most likely word at each step (0.0 to 1.0)
                 ],
             ]);
