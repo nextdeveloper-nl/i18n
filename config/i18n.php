@@ -16,6 +16,7 @@ return [
             'url'   => env('OPENAI_URL', 'https://api.openai.com/v1/'),
             'key'   => env('OPENAI_KEY'),
             'model' => env('OPENAI_MODEL', 'gpt-4'),
+            'max_tokens' => env('OPENAI_MAX_TOKENS', 3000),
         ],
     ],
     'translator' => [
