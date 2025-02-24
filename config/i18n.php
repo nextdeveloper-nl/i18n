@@ -20,7 +20,7 @@ return [
         ],
     ],
     'translator' => [
-        'default_model' => env('TRANSLATOR_MODEL', 'google'),
+        'default_model' => env('TRANSLATOR_MODEL', 'openai'),
     ],
     'domain'    =>  [
         'id'    =>  env('I18N_DOMAIN_ID')

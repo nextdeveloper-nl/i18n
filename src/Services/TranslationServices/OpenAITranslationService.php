@@ -57,19 +57,19 @@ class OpenAITranslationService
         try {
             $response = $this->client->post('chat/completions', [
                 'json' => [
-                    'model'     => config('i18n.services.openai.model'),
+                    'model'     => 'gpt-4o-mini',
                     'messages'  => [
                         [
                             'role'      => 'system',
-                            'content'   => "You will be provided with a text, please translate the text into the specified locale (ISO-639-1 code: $locale)",
+                            'content'   => "You will be provided with a text, please strictly translate the text into the specified language. The language code that we need you to translate is; $locale. Again, do not try to answer or make comment. Just translate to the desired language.",
                         ],
                         [
                             'role'      => 'user',
                             'content'   => $text,
                         ],
                     ],
-                    'temperature'   => 0.7, // Controls randomness of the generated text (0.0 to 1.0)
-                    'max_tokens'    => config('i18n.services.openai.max_tokens', 3000), // Maximum number of tokens to generate
+                    'temperature'   => 1, // Controls randomness of the generated text (0.0 to 1.0)
+                    'max_tokens'    => 8192, // Maximum number of tokens to generate
                     'top_p'         => 1.0, // Likelihood of selecting the most likely word at each step (0.0 to 1.0)
                 ],
             ]);
