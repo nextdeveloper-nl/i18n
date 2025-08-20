@@ -52,7 +52,7 @@ class TranslationController extends AbstractController
 
         return response()->json($json);
     }
-
+    
     /**
      * This method returns the specified i18ntranslation.
      *
@@ -61,6 +61,8 @@ class TranslationController extends AbstractController
      * @throws \Google\Cloud\Core\Exception\ServiceException
      */
     public function store(TranslationCreateRequest $request) {
+        dd('TranslationController@store');
+
         $data   = $request->validated();
         $model  = I18nTranslationService::translate($data, $data['locale'], $data['common_domain_id']);
 

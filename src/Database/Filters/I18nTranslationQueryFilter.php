@@ -18,23 +18,36 @@ class I18nTranslationQueryFilter extends AbstractQueryFilter
     * @var Builder
     */
     protected $builder;
-    
+
     public function hash($value)
     {
         return $this->builder->where('hash', 'like', '%' . $value . '%');
     }
-    
+
+    public function exactText($value)
+    {
+        return $this->builder->where('text', $value);
+    }
+
     public function text($value)
     {
         return $this->builder->where('text', 'like', '%' . $value . '%');
     }
-    
+
     public function translation($value)
     {
         return $this->builder->where('translation', 'like', '%' . $value . '%');
     }
 
     public function domainId($value)
+    {
+        $domain = Domains::where('uuid', $value)->first();
+
+        if($domain)
+            return $this->builder->where('common_domain_id', $value);
+    }
+
+    public function commonDomainId($value)
     {
         $domain = Domains::where('uuid', $value)->first();
 
