@@ -23,6 +23,14 @@ class TranslationController extends AbstractController
     * @return \Illuminate\Http\JsonResponse
     */
     public function index(I18nTranslationQueryFilter $filter, Request $request) {
+        $filters = $filter->filters();
+
+        if(array_key_exists('exactText', $filters)) {
+            $model  = I18nTranslationService::translate($filters['exactText'], $filters['locale'], $filters['commonDomainId']);
+
+            return ResponsableFactory::makeResponse($this, $model);
+        }
+
         $data = I18nTranslationService::get($filter, $request->all());
 
         return ResponsableFactory::makeResponse($this, $data);
@@ -52,7 +60,7 @@ class TranslationController extends AbstractController
 
         return response()->json($json);
     }
-    
+
     /**
      * This method returns the specified i18ntranslation.
      *

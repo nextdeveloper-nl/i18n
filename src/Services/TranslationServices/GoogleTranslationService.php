@@ -31,6 +31,7 @@ class GoogleTranslationService
     {
         // Get the key file path from the configuration.
         $keyFilePath = config('i18n.services.google.translate.file_path');
+        $keyFilePath = base_path($keyFilePath);
 
         if (empty($keyFilePath) || !file_exists($keyFilePath)) {
             throw new \InvalidArgumentException(__METHOD__ . 'Google Cloud credentials file path is not set or file does not exist.');
