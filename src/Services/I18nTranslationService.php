@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use NextDeveloper\Commons\Database\Models\Domains;
 use NextDeveloper\Commons\Database\Models\Languages;
+use NextDeveloper\I18n\Database\Filters\I18nTranslationQueryFilter;
 use NextDeveloper\I18n\Database\Models\I18nTranslation;
 use NextDeveloper\I18n\Services\AbstractServices\AbstractI18nTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\GoogleTranslationService;
@@ -23,6 +24,22 @@ use NextDeveloper\I18n\Services\TranslationServices\OpenAITranslationService;
 class I18nTranslationService extends AbstractI18nTranslationService {
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
+
+    public static function get(I18nTranslationQueryFilter $filter = null, array $params = []): \Illuminate\Database\Eloquent\Collection|\Illuminate\Contracts\Pagination\LengthAwarePaginator
+    {
+        $filters = $filter->filters();
+
+        if(array_key_exists('exactText', $filters)) {
+            //  Check if the word exists in the database
+            self::translate(
+                data: $filters['exactText'],
+                toLocale: $filters['locale'] ?? App::getLocale(),
+                domainId: $filters['commonDomainId'] ?? null
+            );
+        }
+
+        return parent::get($filter, $params);
+    }
 
     /**
      * Translate a given text to the specified locale using the configured translator model.
