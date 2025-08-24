@@ -13,6 +13,7 @@ use NextDeveloper\I18n\Database\Models\I18nTranslation;
 use NextDeveloper\I18n\Services\AbstractServices\AbstractI18nTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\GoogleTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\OpenAITranslationService;
+use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 /**
 * This class is responsible from managing the data for I18nTranslation
@@ -74,6 +75,22 @@ class I18nTranslationService extends AbstractI18nTranslationService {
 
         // If translation exists, return it.
         if ($checkTranslation) {
+            $domain = Domains::withoutGlobalScope(AuthorizationScope::class)->where('uuid', $domainId)->first();
+
+            $translationWithDomain = I18nTranslation::where('hash', $hashTextWithLocale)
+                ->where('common_domain_id', $domain->id)
+                ->first();
+
+            if(!$translationWithDomain) {
+                I18nTranslation::create([
+                    'hash'          => $checkTranslation->hash,
+                    'common_language_id'   => $checkTranslation->common_language_id,
+                    'common_domain_id'     => $domain->id,
+                    'text'          => $checkTranslation->text,
+                    'translation'   => $checkTranslation->translation,
+                ]);
+            }
+
             return $checkTranslation;
         }
 
@@ -137,5 +154,22 @@ class I18nTranslationService extends AbstractI18nTranslationService {
     public static function getByHash(string $hash): ?I18nTranslation
     {
         return I18nTranslation::withoutGlobalScopes()->where('hash', $hash)->first();
+    }
+
+    public static function getTranslations($domainId, $languageId)
+    {
+        $transalations = I18nTranslation::withoutGlobalScopes()
+            ->where('common_domain_id', $domainId)
+            ->orWhere('common_domain_id', null)
+            ->where('common_language_id', $languageId)
+            ->get();
+
+        $keyedTranslations = [];
+
+        foreach ($transalations as $translation) {
+            $keyedTranslations[$translation->text] = $translation->translation;
+        }
+
+        return $keyedTranslations;
     }
 }

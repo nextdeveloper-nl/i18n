@@ -10,8 +10,8 @@ class TranslationCreateRequest extends AbstractFormRequest
     {
         return [
             'text'      => 'required|string',
-            'locale'    => 'required|string|exists:common_languages,iso_639_1_code',
             'common_domain_id' =>   'required|exists:common_domains,uuid',
+            'locale'    => 'required|string|exists:common_languages,iso_639_1_code',
         ];
     }
 }
