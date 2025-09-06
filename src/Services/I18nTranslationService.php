@@ -77,15 +77,19 @@ class I18nTranslationService extends AbstractI18nTranslationService {
         if ($checkTranslation) {
             $domain = Domains::withoutGlobalScope(AuthorizationScope::class)->where('uuid', $domainId)->first();
 
-            $translationWithDomain = I18nTranslation::where('hash', $hashTextWithLocale)
-                ->where('common_domain_id', $domain->id)
-                ->first();
+            $translationWithDomain = null;
+
+            if($domain) {
+                $translationWithDomain = I18nTranslation::where('hash', $hashTextWithLocale)
+                    ->where('common_domain_id', $domain->id)
+                    ->first();
+            }
 
             if(!$translationWithDomain) {
                 I18nTranslation::create([
                     'hash'          => $checkTranslation->hash,
                     'common_language_id'   => $checkTranslation->common_language_id,
-                    'common_domain_id'     => $domain->id,
+                    'common_domain_id'     => $domain ? $domain->id : null,
                     'text'          => $checkTranslation->text,
                     'translation'   => $checkTranslation->translation,
                 ]);
@@ -160,7 +164,6 @@ class I18nTranslationService extends AbstractI18nTranslationService {
     {
         $transalations = I18nTranslation::withoutGlobalScopes()
             ->where('common_domain_id', $domainId)
-            ->orWhere('common_domain_id', null)
             ->where('common_language_id', $languageId)
             ->get();
 
