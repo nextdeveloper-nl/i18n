@@ -10,7 +10,7 @@ return [
         'google' => [
             'translate' => [
                 'key' => env('GOOGLE_TRANSLATE_KEY'),// deprecated, use keyFilePath instead
-                'file_path' => env('GOOGLE_TRANSLATE_KEY_FILE_PATH'),
+                'file_path' => env('GOOGLE_TRANSLATE_KEY_FILE_PATH', '/resources/keys/google-translate.json'),
                 'project_id' => env('GOOGLE_TRANSLATE_PROJECT_ID'),
                 'location' => env('GOOGLE_TRANSLATE_LOCATION', 'global'),
             ]
