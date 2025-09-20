@@ -11,32 +11,6 @@ use NextDeveloper\IAM\Helpers\UserHelper;
 
 class i18n
 {
-    public static function translateWithoutSaving($text, $toLang = null) : string
-    {
-        if(!config('app.translation_enabled'))
-            return $text;
-
-        if(Str::isUuid($toLang))
-            $toLang = Languages::where('uuid', $toLang)->first()->code;
-
-        if(is_int($toLang))
-            $toLang = Languages::where('id', $toLang)->first()->code;
-
-        if(!$toLang)
-            $toLang = App::getLocale();
-
-        /**
-         * @todo: We should find a more clever way to process this. Because if browser sends this locale;
-         * "en-US,en;q=0.5" we should be able to work with this also!
-         */
-        $isLanguageAvailable = Languages::withoutGlobalScopes()->where('code', $toLang)->first();
-
-        if(!$isLanguageAvailable)
-            $toLang = 'en';
-
-        return I18nTranslationService::translateWithoutSaving($text, $toLang);
-    }
-
     public static function t($text, $toLang = null, $domainId = null) : string
     {
         if(!config('app.translation_enabled'))

@@ -112,6 +112,7 @@ class I18nTranslationService extends AbstractI18nTranslationService {
         }
 
         try {
+            Log::debug('[i18n\TranslationService\translate] Using translator model: ' . $translatorModel . ' for text: ' . $data['text'] . ' to locale: ' . $toLocale);
             // Translate the text using the selected translator.
             $translation = $translator->translate($data['text'], trim($toLocale));
         } catch (ServiceException $e) {
