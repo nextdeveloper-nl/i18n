@@ -30,14 +30,7 @@ class I18nAdminRole extends AbstractRole implements IAuthorizationRole
      */
     public function apply(Builder $builder, Model $model)
     {
-        /**
-         * Here user will be able to list all models, because by default, sales manager can see everybody.
-         */
-        $ids = AccountManagers::withoutGlobalScopes()
-            ->where('iam_account_id', UserHelper::currentAccount()->id)
-            ->pluck('crm_account_id');
 
-        $builder->whereIn('iam_account_id', $ids);
     }
 
     public function checkPrivileges(Users $users = null)

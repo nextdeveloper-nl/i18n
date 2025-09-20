@@ -27,6 +27,14 @@ class I18nTranslation extends Model
      */
     protected $guarded = [];
 
+    protected $fillable = [
+        'hash',
+        'common_language_id',
+        'text',
+        'translation',
+        'common_domain_id'
+    ];
+
     /**
      *  Here we have the fulltext fields. We can use these for fulltext search if enabled.
      */
