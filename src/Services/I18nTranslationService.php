@@ -12,6 +12,7 @@ use NextDeveloper\I18n\Database\Filters\I18nTranslationQueryFilter;
 use NextDeveloper\I18n\Database\Models\I18nTranslation;
 use NextDeveloper\I18n\Services\AbstractServices\AbstractI18nTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\GoogleTranslationService;
+use NextDeveloper\I18n\Services\TranslationServices\LeoTransService;
 use NextDeveloper\I18n\Services\TranslationServices\OpenAITranslationService;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
@@ -102,14 +103,11 @@ class I18nTranslationService extends AbstractI18nTranslationService {
         $translatorModel = config('i18n.translator.default_model');
 
         // Instantiate the translator based on the configured model.
-        switch ($translatorModel) {
-            case 'openai':
-                $translator = new OpenAITranslationService();
-                break;
-            default:
-                $translator = new GoogleTranslationService();
-                break;
-        }
+        $translator = match ($translatorModel) {
+            'openai'        => new OpenAITranslationService(),
+            'leotranslator' => new LeoTransService(),
+            default         => new GoogleTranslationService(),
+        };
 
         try {
             Log::debug('[i18n\TranslationService\translate] Using translator model: ' . $translatorModel . ' for text: ' . $data['text'] . ' to locale: ' . $toLocale);
