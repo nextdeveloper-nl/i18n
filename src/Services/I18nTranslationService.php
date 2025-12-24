@@ -3,6 +3,7 @@
 namespace NextDeveloper\I18n\Services;
 
 use Google\Cloud\Core\Exception\ServiceException;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -12,11 +13,12 @@ use NextDeveloper\I18n\Database\Filters\I18nTranslationQueryFilter;
 use NextDeveloper\I18n\Database\Models\I18nTranslation;
 use NextDeveloper\I18n\Services\AbstractServices\AbstractI18nTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\GoogleTranslationService;
+use NextDeveloper\I18n\Services\TranslationServices\LeoTransService;
 use NextDeveloper\I18n\Services\TranslationServices\OpenAITranslationService;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 /**
-* This class is responsible from managing the data for I18nTranslation
+* This class is responsible for managing the data for I18nTranslation
 *
 * Class I18nTranslationService.
 *
@@ -48,10 +50,9 @@ class I18nTranslationService extends AbstractI18nTranslationService {
      * @param array $data
      * @param string $toLocale The target locale for translation. Default is 'en'.
      *
-     * @return I18nTranslation The translated text.
-     * @throws ServiceException
+     * @throws ServiceException|\Exception
      */
-    public static function translate($data, $toLocale = 'en', $domainId = null): ?I18nTranslation
+    public static function translate($data, $toLocale = 'en', $domainId = null)
     {
         //  Added here as a bug fix, and to be able to use with multiple services
         if(!is_array($data)){
@@ -102,22 +103,23 @@ class I18nTranslationService extends AbstractI18nTranslationService {
         $translatorModel = config('i18n.translator.default_model');
 
         // Instantiate the translator based on the configured model.
-        switch ($translatorModel) {
-            case 'openai':
-                $translator = new OpenAITranslationService();
-                break;
-            default:
-                $translator = new GoogleTranslationService();
-                break;
-        }
+        $translator = match ($translatorModel) {
+            'openai'        => new OpenAITranslationService(),
+            'leotranslator' => new LeoTransService(),
+            default         => new GoogleTranslationService(),
+        };
 
         try {
             Log::debug('[i18n\TranslationService\translate] Using translator model: ' . $translatorModel . ' for text: ' . $data['text'] . ' to locale: ' . $toLocale);
             // Translate the text using the selected translator.
             $translation = $translator->translate($data['text'], trim($toLocale));
-        } catch (ServiceException $e) {
+        } catch (ServiceException | GuzzleException $e) {
             Log::error('[i18n\TranslationService\translate] Cannot translate because: ' . $e->getMessage());
+            return $data;
+        }
 
+        // If the original text is the same as the translated text, return the original text.
+        if ($data['text'] === $translation) {
             return $data;
         }
 
@@ -143,10 +145,7 @@ class I18nTranslationService extends AbstractI18nTranslationService {
         }
 
         // Store the translated text in the database for future use.
-        $storeTranslatedText = self::create($data);
-
-        // Return the translated Model.
-        return $storeTranslatedText;
+        return self::create($data);
     }
 
     /**
@@ -161,16 +160,16 @@ class I18nTranslationService extends AbstractI18nTranslationService {
         return I18nTranslation::withoutGlobalScopes()->where('hash', $hash)->first();
     }
 
-    public static function getTranslations($domainId, $languageId)
+    public static function getTranslations($domainId, $languageId): array
     {
-        $transalations = I18nTranslation::withoutGlobalScopes()
+        $translations = I18nTranslation::withoutGlobalScopes()
             ->where('common_domain_id', $domainId)
             ->where('common_language_id', $languageId)
             ->get();
 
         $keyedTranslations = [];
 
-        foreach ($transalations as $translation) {
+        foreach ($translations as $translation) {
             $keyedTranslations[$translation->text] = $translation->translation;
         }
 

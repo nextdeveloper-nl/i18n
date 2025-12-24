@@ -22,3 +22,10 @@ Homestead.json
 /.vagrant
 .phpunit.result.cache
 backup
+
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.iml
+*.log
