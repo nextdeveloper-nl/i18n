@@ -46,6 +46,10 @@ class i18n
         if(!$translated)
             return $text;
 
+        if(is_array($translated)) {
+            return $text;
+        }
+
         return $translated['translation'];
     }
 
