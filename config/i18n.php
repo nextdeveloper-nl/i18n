@@ -21,6 +21,14 @@ return [
             'model' => env('OPENAI_MODEL', 'gpt-4'),
             'max_tokens' => env('OPENAI_MAX_TOKENS', 3000),
         ],
+        'leotranslator'  => [
+            'url'               => env('LEO_TRANSLATE_URL', 'http://185.255.172.20'),
+            'key'               => env('LEO_TRANSLATE_KEY'),
+            'timeout'           => env('LEO_TRANSLATE_TIMEOUT', 10),
+            'connect_timeout'   => env('LEO_TRANSLATE_CONNECT_TIMEOUT', 5),
+            'retries'           => env('LEO_TRANSLATE_RETRIES', 2),
+            'retry_delay_ms'    => env('LEO_TRANSLATE_RETRY_DELAY_MS', 200),
+        ],
     ],
     'translator' => [
         'default_model' => env('TRANSLATOR_MODEL', 'openai'),
