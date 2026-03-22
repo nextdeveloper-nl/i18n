@@ -12,6 +12,7 @@ use NextDeveloper\Commons\Database\Models\Languages;
 use NextDeveloper\I18n\Database\Filters\I18nTranslationQueryFilter;
 use NextDeveloper\I18n\Database\Models\I18nTranslation;
 use NextDeveloper\I18n\Services\AbstractServices\AbstractI18nTranslationService;
+use NextDeveloper\I18n\Services\TranslationServices\ClaudeTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\GoogleTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\LeoTransService;
 use NextDeveloper\I18n\Services\TranslationServices\OpenAITranslationService;
@@ -105,6 +106,7 @@ class I18nTranslationService extends AbstractI18nTranslationService {
         // Instantiate the translator based on the configured model.
         $translator = match ($translatorModel) {
             'openai'        => new OpenAITranslationService(),
+            'claude'        => new ClaudeTranslationService(),
             'leotranslator' => new LeoTransService(),
             default         => new GoogleTranslationService(),
         };
