@@ -21,6 +21,13 @@ return [
             'model' => env('OPENAI_MODEL', 'gpt-4'),
             'max_tokens' => env('OPENAI_MAX_TOKENS', 3000),
         ],
+        'claude'    => [
+            'url'        => env('CLAUDE_URL', 'https://api.anthropic.com/v1/'),
+            'key'        => env('CLAUDE_KEY'),
+            'model'      => env('CLAUDE_MODEL', 'claude-sonnet-4-6'),
+            'max_tokens' => env('CLAUDE_MAX_TOKENS', 8192),
+            'version'    => env('CLAUDE_VERSION', '2023-06-01'),
+        ],
         'leotranslator'  => [
             'url'               => env('LEO_TRANSLATE_URL', 'http://185.255.172.20'),
             'key'               => env('LEO_TRANSLATE_KEY'),
