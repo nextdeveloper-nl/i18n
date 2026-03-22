@@ -138,7 +138,9 @@ class I18nTranslationService extends AbstractI18nTranslationService {
         if ($data['text'] === $translation) {
             //  We are removing this because the translator keeps translating the very same sentence to the very same
             //  language. To avoid this we need to cache the result.
-            //return $data;
+            return $data;
+
+            //  Seems like we don't return the translated text, that is why the process comes to this point
         }
 
         // Get Language ID
