@@ -80,6 +80,15 @@ class I18nTranslationService extends AbstractI18nTranslationService {
         // Check if the translation for the text already exists in the database.
         $checkTranslation =  self::getByHash($hashTextWithLocale);
 
+        if($checkTranslation){
+            return [
+                'hash'          => $hashTextWithLocale,
+                'translation'   => $checkTranslation['translation'],
+                'text'          => $data['text'],
+                'common_language_id'   => $checkTranslation['common_language_id'],
+            ];
+        }
+
         // If translation exists, return it.
         if ($checkTranslation) {
             $domain = Domains::withoutGlobalScope(AuthorizationScope::class)->where('uuid', $domainId)->first();
@@ -92,15 +101,15 @@ class I18nTranslationService extends AbstractI18nTranslationService {
                     ->first();
             }
 
-            if(!$translationWithDomain) {
-                I18nTranslation::create([
-                    'hash'          => $checkTranslation->hash,
-                    'common_language_id'   => $checkTranslation->common_language_id,
-                    'common_domain_id'     => $domain ? $domain->id : null,
-                    'text'          => $checkTranslation->text,
-                    'translation'   => $checkTranslation->translation,
-                ]);
-            }
+//            if(!$translationWithDomain) {
+//                I18nTranslation::create([
+//                    'hash'          => $checkTranslation->hash,
+//                    'common_language_id'   => $checkTranslation->common_language_id,
+//                    'common_domain_id'     => $domain ? $domain->id : null,
+//                    'text'          => $checkTranslation->text,
+//                    'translation'   => $checkTranslation->translation,
+//                ]);
+//            }
 
             return $checkTranslation;
         }
