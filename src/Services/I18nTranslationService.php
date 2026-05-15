@@ -62,7 +62,7 @@ class I18nTranslationService extends AbstractI18nTranslationService {
         }
 
         if($data['text'] == '' || strlen($data['text']) == 0){
-            Log::error('[i18n\TranslationService\translate] Cannot translate because text was empty: ' . print_r($data, true));
+            //Log::error('[i18n\TranslationService\translate] Cannot translate because text was empty: ' . print_r($data, true));
             return $data;
         }
 
