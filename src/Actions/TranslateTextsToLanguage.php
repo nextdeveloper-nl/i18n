@@ -16,7 +16,7 @@ class TranslateTextsToLanguage extends AbstractAction
 {
     public $model;
 
-    public function __construct(I18nTranslation $i18nTranslation = null)
+    public function __construct(?I18nTranslation $i18nTranslation = null)
     {
         $this->model = $i18nTranslation;
     }

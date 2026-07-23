@@ -23,7 +23,7 @@ use NextDeveloper\I18n\Events\I18nTranslation\I18nTranslationDeletingEvent;
 * @package NextDeveloper\I18n\Database\Models
 */
 class AbstractI18nTranslationService {
-    public static function get(I18nTranslationQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator {
+    public static function get(?I18nTranslationQueryFilter $filter = null, array $params = []) : Collection|LengthAwarePaginator {
         $enablePaginate = array_key_exists('paginate', $params);
 
         /**
