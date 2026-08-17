@@ -23,7 +23,7 @@ class I18nTranslationDeletedEvent
      */
     protected $timestamp = null;
 
-    public function __construct(I18nTranslation $model = null) {
+    public function __construct(?I18nTranslation $model = null) {
         $this->_model = $model;
     }
 

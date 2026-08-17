@@ -15,6 +15,7 @@ use NextDeveloper\I18n\Services\AbstractServices\AbstractI18nTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\ClaudeTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\GoogleTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\LeoTransService;
+use NextDeveloper\I18n\Services\TranslationServices\LlmOceanTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\OpenAITranslationService;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
@@ -29,7 +30,7 @@ class I18nTranslationService extends AbstractI18nTranslationService {
 
     // EDIT AFTER HERE - WARNING: ABOVE THIS LINE MAY BE REGENERATED AND YOU MAY LOSE CODE
 
-    public static function get(I18nTranslationQueryFilter $filter = null, array $params = []): \Illuminate\Database\Eloquent\Collection|\Illuminate\Contracts\Pagination\LengthAwarePaginator
+    public static function get(?I18nTranslationQueryFilter $filter = null, array $params = []): \Illuminate\Database\Eloquent\Collection|\Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         $filters = $filter->filters();
 
@@ -62,7 +63,7 @@ class I18nTranslationService extends AbstractI18nTranslationService {
         }
 
         if($data['text'] == '' || strlen($data['text']) == 0){
-            Log::error('[i18n\TranslationService\translate] Cannot translate because text was empty: ' . print_r($data, true));
+            //Log::error('[i18n\TranslationService\translate] Cannot translate because text was empty: ' . print_r($data, true));
             return $data;
         }
 
@@ -122,6 +123,7 @@ class I18nTranslationService extends AbstractI18nTranslationService {
             'openai'        => new OpenAITranslationService(),
             'claude'        => new ClaudeTranslationService(),
             'leotranslator' => new LeoTransService(),
+            'llmocean'      => new LlmOceanTranslationService(),
             default         => new GoogleTranslationService(),
         };
 
@@ -138,7 +140,9 @@ class I18nTranslationService extends AbstractI18nTranslationService {
         if ($data['text'] === $translation) {
             //  We are removing this because the translator keeps translating the very same sentence to the very same
             //  language. To avoid this we need to cache the result.
-            //return $data;
+            return $data;
+
+            //  Seems like we don't return the translated text, that is why the process comes to this point
         }
 
         // Get Language ID

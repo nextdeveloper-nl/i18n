@@ -13,6 +13,7 @@ class i18n
 {
     public static function t($text, $toLang = null, $domainId = null) : string
     {
+
         if(!config('app.translation_enabled'))
             return $text;
 
