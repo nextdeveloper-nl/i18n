@@ -15,6 +15,7 @@ use NextDeveloper\I18n\Services\AbstractServices\AbstractI18nTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\ClaudeTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\GoogleTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\LeoTransService;
+use NextDeveloper\I18n\Services\TranslationServices\LlmOceanTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\OpenAITranslationService;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
@@ -122,6 +123,7 @@ class I18nTranslationService extends AbstractI18nTranslationService {
             'openai'        => new OpenAITranslationService(),
             'claude'        => new ClaudeTranslationService(),
             'leotranslator' => new LeoTransService(),
+            'llmocean'      => new LlmOceanTranslationService(),
             default         => new GoogleTranslationService(),
         };
 

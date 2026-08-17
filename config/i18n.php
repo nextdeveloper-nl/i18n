@@ -28,6 +28,17 @@ return [
             'max_tokens' => env('CLAUDE_MAX_TOKENS', 8192),
             'version'    => env('CLAUDE_VERSION', '2023-06-01'),
         ],
+        'llmocean'  => [
+            'url'               => env('LLM_OCEAN_URL', 'https://llm.greenference.com/v1/'),
+            'key'               => env('LLM_OCEAN_KEY'),
+            'model'             => env('LLM_OCEAN_MODEL', 'plusclouds/i18n-translator'),
+            'max_tokens'        => env('LLM_OCEAN_MAX_TOKENS', 8192),
+            'temperature'       => env('LLM_OCEAN_TEMPERATURE', 0.3),
+            'timeout'           => env('LLM_OCEAN_TIMEOUT', 120),
+            'connect_timeout'   => env('LLM_OCEAN_CONNECT_TIMEOUT', 30),
+            'retries'           => env('LLM_OCEAN_RETRIES', 2),
+            'retry_delay_ms'    => env('LLM_OCEAN_RETRY_DELAY_MS', 500),
+        ],
         'leotranslator'  => [
             'url'               => env('LEO_TRANSLATE_URL', 'http://185.255.172.20'),
             'key'               => env('LEO_TRANSLATE_KEY'),
