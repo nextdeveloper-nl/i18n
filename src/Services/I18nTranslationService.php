@@ -15,8 +15,8 @@ use NextDeveloper\I18n\Services\AbstractServices\AbstractI18nTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\ClaudeTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\GoogleTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\LeoTransService;
+use NextDeveloper\I18n\Services\TranslationServices\LiteLLMTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\LlmOceanTranslationService;
-use NextDeveloper\I18n\Services\TranslationServices\OpenAITranslationService;
 use NextDeveloper\IAM\Database\Scopes\AuthorizationScope;
 
 /**
@@ -120,7 +120,7 @@ class I18nTranslationService extends AbstractI18nTranslationService {
 
         // Instantiate the translator based on the configured model.
         $translator = match ($translatorModel) {
-            'openai'        => new OpenAITranslationService(),
+            'litellm'       => new LiteLLMTranslationService(),
             'claude'        => new ClaudeTranslationService(),
             'leotranslator' => new LeoTransService(),
             'llmocean'      => new LlmOceanTranslationService(),

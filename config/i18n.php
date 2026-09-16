@@ -15,11 +15,11 @@ return [
                 'location' => env('GOOGLE_TRANSLATE_LOCATION', 'global'),
             ]
         ],
-        'openai'    => [
-            'url'   => env('OPENAI_URL', 'https://api.openai.com/v1/'),
-            'key'   => env('OPENAI_KEY'),
-            'model' => env('OPENAI_MODEL', 'gpt-4'),
-            'max_tokens' => env('OPENAI_MAX_TOKENS', 3000),
+        'litellm'    => [
+            'url'   => env('LITELLM_URL', 'http://localhost:4000/'),
+            'key'   => env('LITELLM_KEY'),
+            'model' => env('LITELLM_TRANSLATION_MODEL', 'gpt-4o'),
+            'max_tokens' => env('LITELLM_MAX_TOKENS', 3000),
         ],
         'claude'    => [
             'url'        => env('CLAUDE_URL', 'https://api.anthropic.com/v1/'),
@@ -49,7 +49,7 @@ return [
         ],
     ],
     'translator' => [
-        'default_model' => env('TRANSLATOR_MODEL', 'openai'),
+        'default_model' => env('TRANSLATOR_MODEL', 'litellm'),
     ],
     'domain'    =>  [
         'id'    =>  env('I18N_DOMAIN_ID')

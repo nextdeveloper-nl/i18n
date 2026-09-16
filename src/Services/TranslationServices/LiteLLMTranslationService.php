@@ -7,40 +7,40 @@ use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Service class for translating text using OpenAI Translation API.
+ * Service class for translating text using a LiteLLM proxy (OpenAI-compatible chat completions API).
  *
- * @see https://platform.openai.com/examples/default-translation
+ * @see https://docs.litellm.ai/docs/proxy/user_keys
  */
-class OpenAITranslationService
+class LiteLLMTranslationService
 {
     /**
-     * @var Client The OpenAI Translation client.
+     * @var Client The LiteLLM Translation client.
      */
     protected Client $client;
 
     /**
-     * OpenAITranslationService constructor.
+     * LiteLLMTranslationService constructor.
      *
-     * @throws \Exception If OpenAI Translation API is not properly configured.
+     * @throws \Exception If the LiteLLM Translation API is not properly configured.
      */
     public function __construct()
     {
-        // Check if the OpenAI Translation API is properly configured.
+        // Check if the LiteLLM Translation API is properly configured.
         if (
-            !config('i18n.services.openai.url')
-            || !config('i18n.services.openai.key')
-            || !config('i18n.services.openai.model')
+            !config('i18n.services.litellm.url')
+            || !config('i18n.services.litellm.key')
+            || !config('i18n.services.litellm.model')
         ) {
-            throw new \Exception('OpenAI Translation API is not configured properly.');
+            throw new \Exception('LiteLLM Translation API is not configured properly.');
         }
 
-        // Instantiate the OpenAI Translation client with configuration options.
+        // Instantiate the LiteLLM Translation client with configuration options.
         $this->client = new Client([
-            'base_uri' => config('i18n.services.openai.url'),
+            'base_uri' => config('i18n.services.litellm.url'),
             'timeout' => 120, // Response timeout in seconds
             'connect_timeout' => 120, // Connection timeout in seconds
             'headers' => [
-                'Authorization' => 'Bearer ' . config('i18n.services.openai.key'),
+                'Authorization' => 'Bearer ' . config('i18n.services.litellm.key'),
                 'Content-Type' => 'application/json',
             ],
         ]);
@@ -67,7 +67,7 @@ class OpenAITranslationService
 
             $response = $this->client->post('chat/completions', [
                 'json' => [
-                    'model' => 'gpt-4o',
+                    'model' => config('i18n.services.litellm.model'),
                     'messages' => [
                         [
                             'role' => 'system',
@@ -90,10 +90,10 @@ class OpenAITranslationService
                 return trim($result["choices"][0]["message"]["content"]);
             }
 
-            Log::error("[i18n.OpenAITranslationService] An error occurred while translating the text: " . $response->getBody()->getContents());
+            Log::error("[i18n.LiteLLMTranslationService] An error occurred while translating the text: " . $response->getBody()->getContents());
             return $text;
         } catch (GuzzleException $e) {
-            Log::error("[i18n.OpenAITranslationService] An error occurred while translating the text: " . $e->getMessage());
+            Log::error("[i18n.LiteLLMTranslationService] An error occurred while translating the text: " . $e->getMessage());
             return $text;
         }
     }
