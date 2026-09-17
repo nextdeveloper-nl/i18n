@@ -66,7 +66,7 @@ class TranslationController extends AbstractController
      *
      * @param TranslationCreateRequest $request
      * @return mixed|null
-     * @throws \Google\Cloud\Core\Exception\ServiceException
+     * @throws \Exception
      */
     public function store(TranslationCreateRequest $request) {
         $data   = $request->validated();
