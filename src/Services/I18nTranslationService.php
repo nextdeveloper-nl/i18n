@@ -2,7 +2,6 @@
 
 namespace NextDeveloper\I18n\Services;
 
-use Google\Cloud\Core\Exception\ServiceException;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
@@ -13,7 +12,6 @@ use NextDeveloper\I18n\Database\Filters\I18nTranslationQueryFilter;
 use NextDeveloper\I18n\Database\Models\I18nTranslation;
 use NextDeveloper\I18n\Services\AbstractServices\AbstractI18nTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\ClaudeTranslationService;
-use NextDeveloper\I18n\Services\TranslationServices\GoogleTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\LeoTransService;
 use NextDeveloper\I18n\Services\TranslationServices\LiteLLMTranslationService;
 use NextDeveloper\I18n\Services\TranslationServices\LlmOceanTranslationService;
@@ -52,7 +50,7 @@ class I18nTranslationService extends AbstractI18nTranslationService {
      * @param array $data
      * @param string $toLocale The target locale for translation. Default is 'en'.
      *
-     * @throws ServiceException|\Exception
+     * @throws \Exception
      */
     public static function translate($data, $toLocale = 'en', $domainId = null)
     {
@@ -119,19 +117,19 @@ class I18nTranslationService extends AbstractI18nTranslationService {
         $translatorModel = config('i18n.translator.default_model');
 
         // Instantiate the translator based on the configured model.
+        // Google Translate has been removed as a translator option; litellm is now the default.
         $translator = match ($translatorModel) {
-            'litellm'       => new LiteLLMTranslationService(),
             'claude'        => new ClaudeTranslationService(),
             'leotranslator' => new LeoTransService(),
             'llmocean'      => new LlmOceanTranslationService(),
-            default         => new GoogleTranslationService(),
+            default         => new LiteLLMTranslationService(),
         };
 
         try {
             Log::debug('[i18n\TranslationService\translate] Using translator model: ' . $translatorModel . ' for text: ' . $data['text'] . ' to locale: ' . $toLocale);
             // Translate the text using the selected translator.
             $translation = $translator->translate($data['text'], trim($toLocale));
-        } catch (ServiceException | GuzzleException $e) {
+        } catch (GuzzleException $e) {
             Log::error('[i18n\TranslationService\translate] Cannot translate because: ' . $e->getMessage());
             return $data;
         }

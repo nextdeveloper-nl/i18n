@@ -2,13 +2,11 @@
 
 namespace NextDeveloper\I18n\Services;
 
-use Google\Cloud\Core\Exception\ServiceException;
 use Illuminate\Support\Str;
 use NextDeveloper\Commons\Database\Models\Domains;
 use NextDeveloper\Commons\Database\Models\Languages;
 use NextDeveloper\I18n\Database\Models\I18nTranslation;
 use NextDeveloper\I18n\Services\AbstractServices\AbstractI18nTranslationService;
-use NextDeveloper\I18n\Services\TranslationServices\GoogleTranslationService;
 
 /**
 * This class is responsible from managing the data for I18nTranslation

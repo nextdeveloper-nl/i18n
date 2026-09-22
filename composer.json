@@ -8,8 +8,7 @@
     "require": {
         "php": ">=8.2.0",
         "league/fractal": "*",
-        "monolog/monolog": "*",
-        "google/cloud-translate": "*"
+        "monolog/monolog": "*"
     },
     "require-dev": {
         "illuminate/support": ">=8.0",
